@@ -6,6 +6,8 @@
 <script>
 export default {
     name: "home",
+    components: {
+    },
     data() {
         return {
             msg: 'hello world!'

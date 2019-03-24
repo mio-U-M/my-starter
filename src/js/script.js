@@ -1,10 +1,19 @@
-import { BASE_DIR } from '../constants.yml'
-import Sample from '@/lib/Sample';
+import Vue from "vue";
+import App from "@/vue/App";
+import router from "@/router";
+import store from "@/store";
 
-const sample = new Sample({
-    name: 'world'
-});
+Vue.config.productionTip = false;
+// Vue Production Mode
+if (process.env.NODE_ENV === "production") {
+    Vue.config.devtools = false;
+    Vue.config.debug = false;
+    Vue.config.silent = true;
+}
 
-document.querySelector('.wrapper').addEventListener('click', () => {
-    console.log(`hello, ${sample.name}. Base directory is ${BASE_DIR}.`);
+new Vue({
+    router,
+    store,
+    el: "#app",
+    render: h => h(App)
 });
