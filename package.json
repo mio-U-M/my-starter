@@ -1,9 +1,8 @@
 {
-  "name": "kayac-html5-starter",
+  "name": "mt-vue-starter",
   "version": "0.0.0",
-  "description": "kayac-html5-starter development.",
-  "author": "Kayac Inc.",
-  "license": "MIT",
+  "description": "mt-vue-starter development.",
+  "author": "MT",
   "scripts": {
     "build": "NODE_ENV=production webpack --progress",
     "start": "NODE_ENV=development webpack-dev-server --inline --open"
@@ -13,6 +12,7 @@
     "babel-loader": "^7.1.4",
     "babel-plugin-transform-runtime": "^6.23.0",
     "babel-preset-env": "^1.6.1",
+    "babel-preset-stage-1": "^6.24.1",
     "css-loader": "^0.28.11",
     "css-mqpacker": "^6.0.2",
     "extract-text-webpack-plugin": "next",
@@ -31,8 +31,10 @@
     "sass-loader": "^6.0.7",
     "vue": "^2.5.16",
     "vue-loader": "14.2.2",
+    "vue-router": "^3.0.2",
     "vue-style-loader": "^4.1.0",
     "vue-template-compiler": "^2.5.16",
+    "vuex": "^3.1.0",
     "webpack": "^4.4.1",
     "webpack-cli": "^2.0.13",
     "webpack-dev-server": "^3.1.1",
@@ -40,7 +42,8 @@
   },
   "babel": {
     "presets": [
-      "env"
+      "env",
+      "stage-1"
     ],
     "plugins": [
       "transform-runtime"
