@@ -1,10 +1,12 @@
 import { BASE_DIR } from '../constants.yml'
-import Sample from '@/lib/Sample';
+import CanvasUtil from '@/lib/CanvasUtil';
 
-const sample = new Sample({
-    name: 'world'
-});
+const canvas = new CanvasUtil(document.getElementById('canvas'));
 
-document.querySelector('.wrapper').addEventListener('click', () => {
-    console.log(`hello, ${sample.name}. Base directory is ${BASE_DIR}.`);
-});
+// size set
+canvas.matchSize();
+// clear
+canvas.clear();
+
+// test
+canvas.fillCircle(200, 100, 40, '#000000');
