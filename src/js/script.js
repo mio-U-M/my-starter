@@ -1,10 +1,7 @@
-import { BASE_DIR } from '../constants.yml'
-import Sample from '@/lib/Sample';
+import { BASE_DIR } from "../constants.yml";
+import ShaderManager from "./lib/shaderManager";
 
-const sample = new Sample({
-    name: 'world'
-});
+const view = document.querySelector(".js-view");
+const manager = new ShaderManager(view);
 
-document.querySelector('.wrapper').addEventListener('click', () => {
-    console.log(`hello, ${sample.name}. Base directory is ${BASE_DIR}.`);
-});
+manager.init();

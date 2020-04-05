@@ -1,74 +1,69 @@
-'use strict'
+"use strict";
 
-const ExtractTextPlugin = require('extract-text-webpack-plugin')
-const routeDataMapper = require('webpack-route-data-mapper')
-const readConfig = require('read-config')
-const path = require('path')
+const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const routeDataMapper = require("webpack-route-data-mapper");
+const readConfig = require("read-config");
+const path = require("path");
 
 // base config
-const SRC = './src'
-const DEST = './public'
-const HOST = process.env.HOST || '0.0.0.0'
-const PORT = process.env.PORT || 3000
+const SRC = "./src";
+const DEST = "./public";
+const HOST = process.env.HOST || "0.0.0.0";
+const PORT = process.env.PORT || 3000;
 
-const constants = readConfig(`${SRC}/constants.yml`)
-const { BASE_DIR } = constants
-
+const constants = readConfig(`${SRC}/constants.yml`);
+const { BASE_DIR } = constants;
 
 // page/**/*.pug -> dist/**/*.html
 const htmlTemplates = routeDataMapper({
     baseDir: `${SRC}/pug/page`,
-    src: '**/[!_]*.pug',
-    locals: Object.assign(
-        {},
-        constants,
-        {
-            meta: readConfig(`${SRC}/pug/meta.yml`)
-        }
-    )
-})
+    src: "**/[!_]*.pug",
+    locals: Object.assign({}, constants, {
+        meta: readConfig(`${SRC}/pug/meta.yml`)
+    })
+});
 
 module.exports = {
     // エントリーファイル
     entry: {
-        'js/script.js': `${SRC}/js/script.js`,
-        'css/style.css': `${SRC}/scss/style.scss`,
+        "js/script.js": `${SRC}/js/script.js`,
+        "css/style.css": `${SRC}/scss/style.scss`
     },
     // 出力するディレクトリ・ファイル名などの設定
     output: {
         path: path.resolve(__dirname, DEST + BASE_DIR),
-        filename: '[name]',
-        publicPath: BASE_DIR,
+        filename: "[name]",
+        publicPath: BASE_DIR
     },
     module: {
         // 各ファイル形式ごとのビルド設定
         rules: [
             {
                 test: /\.js$/,
-                loader: 'babel-loader',
+                loader: "babel-loader",
                 exclude: /(node_modules)/,
                 options: {
                     compact: true,
-                    cacheDirectory: true,
+                    cacheDirectory: true
                 }
             },
             {
                 test: /\.pug$/,
                 use: [
                     {
-                        loader: 'pug-loader',
+                        loader: "pug-loader",
                         options: {
                             root: path.resolve(`${SRC}/pug/`),
-                            pretty: true,
+                            pretty: true
                         }
                     }
-                ],
+                ]
             },
             {
                 test: /\.(jpe?g|png|gif|svg)$/,
-                loader: 'file-loader',
+                loader: "file-loader",
                 options: {
-                    name: '[path][name].[ext]'
+                    name: "[path][name].[ext]"
                 }
             },
             {
@@ -76,24 +71,32 @@ module.exports = {
                 use: ExtractTextPlugin.extract({
                     use: [
                         {
-                            loader: 'css-loader',
+                            loader: "css-loader",
                             options: {
-                                importLoaders: 2,
+                                importLoaders: 2
                             }
                         },
-                        'postcss-loader',
+                        "postcss-loader",
                         {
-                            loader: 'sass-loader',
+                            loader: "sass-loader",
                             options: {
-                                includePaths: [ `${SRC}/scss` ],
-                            },
+                                includePaths: [`${SRC}/scss`]
+                            }
                         }
                     ]
                 })
             },
             {
                 test: /.ya?ml$/,
-                loader: 'js-yaml-loader',
+                loader: "js-yaml-loader"
+            },
+            {
+                test: /\.(frag|vert|glsl)$/,
+                use: [
+                    {
+                        loader: "glsl-shader-loader"
+                    }
+                ]
             }
         ]
     },
@@ -102,15 +105,16 @@ module.exports = {
         host: HOST,
         port: PORT,
         contentBase: DEST,
-        openPage: path.relative('/', BASE_DIR),
+        openPage: path.relative("/", BASE_DIR),
+        disableHostCheck: true
     },
     // キャシュ有効化
     cache: true,
     // 拡張子省略時のpath解決
     resolve: {
-        extensions: ['.js', '.json', '*'],
+        extensions: [".js", ".json", "*"],
         alias: {
-            '@': path.join(__dirname, SRC, 'js'),
+            "@": path.join(__dirname, SRC, "js")
         }
     },
 
@@ -118,6 +122,6 @@ module.exports = {
         // 複数のHTMLファイルを出力する
         ...htmlTemplates,
         // style.cssを出力
-        new ExtractTextPlugin('[name]')
-    ],
-}
+        new ExtractTextPlugin("[name]")
+    ]
+};
